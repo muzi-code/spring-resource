@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation=
+       "
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       "
+       default-lazy-init="false">
+
+    <!--http://www.springframework.org/schema/context namespace uri ， xsd详细的配置规则 -->
+
+    <!-- 自定义标签 扫描包 -->
+    <!--<context:component-scan base-package="com.jd.nlp.dev.muzi.spring5.exercise.demo01" />-->
+
+    <!--
+    Spring中声明继承关系
+
+    parent还是一个独立的个体
+
+    son 实例化过程中 标签中没有配置的属性会直接继承使用parent对应的属性
+    -->
+    <bean id="parent" class="com.jd.nlp.dev.muzi.spring5.exercise.demo02.Parent" abstract="true">
+
+        <!-- property 可以使用 @Value("${xxxx}") 替代-->
+        <property name="name" value="parent class" />
+    </bean>
+    <bean id="son" class="com.jd.nlp.dev.muzi.spring5.exercise.demo02.Son" parent="parent">
+        <!--<property name="name" value="son class" />-->
+        <property name="age" value="19" />
+    </bean>
+
+    <!--
+    这两个beanDefinition会在实例化过程中合并成一个 abstract="true" parent="parent"
+    -->
+    <!--<bean id="parent" class="com.jd.nlp.dev.muzi.spring5.exercise.demo02.Parent" abstract="true">-->
+        <!--<property name="name" value="parent class" />-->
+    <!--</bean>-->
+    <!--<bean id="son" class="com.jd.nlp.dev.muzi.spring5.exercise.demo02.Son" parent="parent">-->
+        <!--&lt;!&ndash;<property name="name" value="son class" />&ndash;&gt;-->
+        <!--<property name="age" value="19" />-->
+    <!--</bean>-->
+</beans>

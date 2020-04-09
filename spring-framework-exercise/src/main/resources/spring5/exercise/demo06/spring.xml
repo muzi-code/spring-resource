@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation=
+       "
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       "
+       default-lazy-init="false">
+
+    <!--http://www.springframework.org/schema/context namespace uri ， xsd详细的配置规则 -->
+
+    <!-- 自定义标签 扫描包 -->
+    <context:component-scan base-package="com.jd.nlp.dev.muzi.spring5.exercise.demo06" />
+
+    <bean id="replaceClass" class="com.jd.nlp.dev.muzi.spring5.exercise.demo06.ReplaceClass" />
+
+    <bean id="originClass" class="com.jd.nlp.dev.muzi.spring5.exercise.demo06.OriginClass">
+        <replaced-method name="method" replacer="replaceClass">
+            <!-- 使用arg-type来区分重载的方法 -->
+            <arg-type match="java.lang.String" />
+        </replaced-method>
+    </bean>
+</beans>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation=
+       "
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       "
+       default-lazy-init="false">
+
+    <!--http://www.springframework.org/schema/context namespace uri ， xsd详细的配置规则 -->
+
+    <!-- 自定义标签 扫描包 -->
+    <context:component-scan base-package="com.jd.nlp.dev.muzi.spring5.exercise.demo05" />
+
+    <bean id="dog" class="com.jd.nlp.dev.muzi.spring5.exercise.demo05.Dog" >
+        <!-- 元数据标签主要起到一个标识的作用，没啥用 -->
+        <meta key="key1" value="value1" />
+    </bean>
+
+    <bean id="woman" class="com.jd.nlp.dev.muzi.spring5.exercise.demo05.Woman" />
+
+    <bean id="people" class="com.jd.nlp.dev.muzi.spring5.exercise.demo05.ShowSixClass" >
+        <!--简单理解就是 给某个方法塞返回值 体现出一种多态的方式-->
+        <lookup-method name="getPeople" bean="woman" />
+    </bean>
+</beans>
