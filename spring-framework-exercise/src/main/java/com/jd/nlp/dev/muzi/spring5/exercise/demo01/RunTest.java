@@ -1,6 +1,7 @@
 package com.jd.nlp.dev.muzi.spring5.exercise.demo01;
 
 import org.junit.Test;
+//import org.springframework.boot.context.embedded.EmbeddedWebApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
@@ -35,7 +36,7 @@ public class RunTest {
     public void test04(){
         // springboot在启动的时候会使用这个上下文来启动spring容器。new Tomcat 嵌入式tomcat
         // springboot 1.x.x 会有下面这个类
-        // new EmbeddedWebApplicationContext();
+//        new EmbeddedWebApplicationContext();
     }
 
     @Test
