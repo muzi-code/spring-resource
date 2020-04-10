@@ -586,8 +586,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				 *
 				 * 实现BeanPostProcessor接口实现类的注册
 				 *
-				 * Bean实例化过程中需要的组件解析处理器
-				 * 有些组件需要先行实例化，bean的实例化会需要用到
+				 * Bean实例化过程中需要的组件、解析器、处理器  提前实例化。
+				 *
 				 */
 				registerBeanPostProcessors(beanFactory);
 

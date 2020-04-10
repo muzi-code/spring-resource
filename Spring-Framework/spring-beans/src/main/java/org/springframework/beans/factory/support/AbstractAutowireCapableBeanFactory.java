@@ -566,6 +566,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			/**
 			 * 【创建实例的过程】
 			 *
+			 * 1.factorybean
+			 * 2.有参数构造函数初始化
+			 * 3.无参数构造函数初始化
+			 *
 			 * 重要： * * * * *
 			 */
 			instanceWrapper = createBeanInstance(beanName, mbd, args);
@@ -638,8 +642,15 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			populateBean(beanName, mbd, instanceWrapper);
 
 			/**
+			 * Bean实例化且DI后执行一些业务初始化逻辑
 			 *
-			 * bean 实例化+ioc，注入完后调用的一些bean创建后的一些操作
+			 *
+			 * demo16
+			 * 配置的初始化方法调用
+			 *
+			 * init-method
+			 * InitializingBean接口afterPropertiesSet方法
+			 * @PostConstruct注解下的方法
 			 *
 			 * 重要 * * * * *
 			 */

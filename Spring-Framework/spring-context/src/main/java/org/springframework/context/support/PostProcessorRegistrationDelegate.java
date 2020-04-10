@@ -57,6 +57,8 @@ final class PostProcessorRegistrationDelegate {
 		Set<String> processedBeans = new HashSet<>();
 
 		/**
+		 * beanFactoryPostProcessors中的内容处理执行
+		 *
 		 * BeanDefinitionRegistryPostProcessor接口的实现类的解析执行过程
 		 */
 		if (beanFactory instanceof BeanDefinitionRegistry) {
@@ -76,12 +78,12 @@ final class PostProcessorRegistrationDelegate {
 				}
 			}
 
-			List<BeanDefinitionRegistryPostProcessor> currentRegistryProcessors = new ArrayList<>();
 
 			/**
 			 * 实现PriorityOrdered接口
 			 * 拿到工厂中BeanDefinitionRegistryPostProcessor类相关的所有的BeanDefinition的名称（beanName）。
 			 */
+			List<BeanDefinitionRegistryPostProcessor> currentRegistryProcessors = new ArrayList<>();
 			String[] postProcessorNames =
 					beanFactory.getBeanNamesForType(BeanDefinitionRegistryPostProcessor.class, true, false);
 			for (String ppName : postProcessorNames) {
@@ -94,12 +96,11 @@ final class PostProcessorRegistrationDelegate {
 					processedBeans.add(ppName);
 				}
 			}
-
 			// 排序
 			sortPostProcessors(currentRegistryProcessors, beanFactory);
 			registryProcessors.addAll(currentRegistryProcessors);
 
-			// 调用过程
+			// 调用 postProcessBeanDefinitionRegistry 方法
 			invokeBeanDefinitionRegistryPostProcessors(currentRegistryProcessors, registry);
 			currentRegistryProcessors.clear();
 
@@ -120,7 +121,7 @@ final class PostProcessorRegistrationDelegate {
 			sortPostProcessors(currentRegistryProcessors, beanFactory);
 			registryProcessors.addAll(currentRegistryProcessors);
 
-			// 调用过程
+			// 调用 postProcessBeanDefinitionRegistry 方法
 			invokeBeanDefinitionRegistryPostProcessors(currentRegistryProcessors, registry);
 			currentRegistryProcessors.clear();
 
@@ -144,13 +145,16 @@ final class PostProcessorRegistrationDelegate {
 				sortPostProcessors(currentRegistryProcessors, beanFactory);
 				registryProcessors.addAll(currentRegistryProcessors);
 
-				// 调用
+				// 调用 postProcessBeanDefinitionRegistry 方法
 				invokeBeanDefinitionRegistryPostProcessors(currentRegistryProcessors, registry);
 				currentRegistryProcessors.clear();
 			}
 
 			/*
-			 * 调用postProcessBeanFactory方法
+			 * 这个接口继承了 BeanFactoryPostProcessor 所以还需要调用postProcessBeanFactory方法
+			 *
+			 * registryProcessors是BeanDefinitionRegistryPostProcessor的实现的集合
+			 * regularPostProcessors是BeanFactoryPostProcessor的集合
 			 */
 			invokeBeanFactoryPostProcessors(registryProcessors, beanFactory);
 			invokeBeanFactoryPostProcessors(regularPostProcessors, beanFactory);
@@ -161,11 +165,14 @@ final class PostProcessorRegistrationDelegate {
 
 
 		/**
-		 * 下面是postProcessBeanFactory方法的调用逻辑。
-		 *
 		 * BeanFactoryPostProcessor接口 含有 postProcessBeanFactory
 		 *
 		 * BeanDefinitionRegistryPostProcessor接口 继承了 BeanFactoryPostProcessor接口
+		 *
+		 * 有排序的内容
+		 * 1、拿到名称
+		 * 2、实例化
+		 * 3、遍历执行
 		 */
 		String[] postProcessorNames =
 				beanFactory.getBeanNamesForType(BeanFactoryPostProcessor.class, true, false);
@@ -241,16 +248,13 @@ final class PostProcessorRegistrationDelegate {
 				/**
 				 * 自定义的BeanPostProcessor会在这里实例化
 				 * getBean是实例化方法，BeanPostprocessor在BeanFactory中是一个List来管理的
-				 *
-				 * 优先实例化 ， @Bean @Configuration @Import等注解的类实例化
-				 * 为什么优先，有些bean在实例化时需要调用这些组件接口。所以要先实例化。
 				 */
 				BeanPostProcessor pp = beanFactory.getBean(ppName, BeanPostProcessor.class);
 				priorityOrderedPostProcessors.add(pp);
 
 				/**
-				 * 判断类型是否是MergedBeanDefinitionPostProcessor，如果是则是代码内部使用
-				 * MergedBeanDefinitionPostProcessor是个内部接口
+				 * 判断类型是否是MergedBeanDefinitionPostProcessor,如果是则是代码内部使用
+				 * MergedBeanDefinitionPostProcessor是个Spring内部接口
 				 */
 				if (pp instanceof MergedBeanDefinitionPostProcessor) {
 					internalPostProcessors.add(pp);

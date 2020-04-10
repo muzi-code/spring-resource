@@ -867,6 +867,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 				}
 				else {
 					/**
+					 * 未实现FactoryBean接口的实现类 可以创建一个非当前bean的对象，放入一个特定的集合中去。
+					 *
 					 * 实例化核心方法
 					 */
 					getBean(beanName);

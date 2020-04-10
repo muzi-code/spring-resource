@@ -447,6 +447,7 @@ public class BeanDefinitionParserDelegate {
 		/**
 		 * 解析这个元素 ele 剩余的全部的属性
 		 * 返回 名为beanName的 AbstractBeanDefinition 对象
+		 * 详细的解析过程：* * * * *
 		 */
 		AbstractBeanDefinition beanDefinition = parseBeanDefinitionElement(ele, beanName, containingBean);
 
