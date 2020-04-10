@@ -17,7 +17,7 @@
     <context:component-scan base-package="com.jd.nlp.dev.muzi.spring5.exercise.demo05" />
 
     <bean id="dog" class="com.jd.nlp.dev.muzi.spring5.exercise.demo05.Dog" >
-        <!-- 元数据标签主要起到一个标识的作用，没啥用 -->
+        <!-- 元数据标签主要起到一个标识的作用，没啥用  beanDefinition中的attribute -->
         <meta key="key1" value="value1" />
     </bean>
 

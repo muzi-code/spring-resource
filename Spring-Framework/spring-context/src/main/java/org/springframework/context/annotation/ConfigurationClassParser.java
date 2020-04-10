@@ -164,6 +164,9 @@ class ConfigurationClassParser {
 			BeanDefinition bd = holder.getBeanDefinition();
 			try {
 				if (bd instanceof AnnotatedBeanDefinition) {
+					/**
+					 * demo15 自己实现的 ComponentScanBean
+					 */
 					parse(((AnnotatedBeanDefinition) bd).getMetadata(), holder.getBeanName());
 				}
 				else if (bd instanceof AbstractBeanDefinition && ((AbstractBeanDefinition) bd).hasBeanClass()) {
@@ -196,6 +199,9 @@ class ConfigurationClassParser {
 	}
 
 	protected final void parse(AnnotationMetadata metadata, String beanName) throws IOException {
+		/**
+		 * beanName 和 metadata 包装成 ConfigurationClass 对象
+		 */
 		processConfigurationClass(new ConfigurationClass(metadata, beanName));
 	}
 
@@ -236,13 +242,24 @@ class ConfigurationClassParser {
 			}
 		}
 
+		/**
+		 * ConfigurationClass（name，metaData） - > SourceClass
+		 *
+		 * SourceClass(class name)
+		 */
 		// Recursively process the configuration class and its superclass hierarchy.
 		SourceClass sourceClass = asSourceClass(configClass);
 		do {
+			/**
+			 * 处理类中注解配置信息
+			 */
 			sourceClass = doProcessConfigurationClass(configClass, sourceClass);
 		}
 		while (sourceClass != null);
 
+		/**
+		 * sourceClass == null ， 维护到容器中 configurationClasses
+		 */
 		this.configurationClasses.put(configClass, configClass);
 	}
 
@@ -276,6 +293,10 @@ class ConfigurationClassParser {
 			}
 		}
 
+		/**
+		 * @ComponentScan @ComponentScans 注解的支撑
+		 * 处理 ComponentScans 注解内容，大致内容是解析出扫描路径包下可以被Spring管理的类并创建BeanDefinition
+		 */
 		// Process any @ComponentScan annotations
 		Set<AnnotationAttributes> componentScans = AnnotationConfigUtils.attributesForRepeatable(
 				sourceClass.getMetadata(), ComponentScans.class, ComponentScan.class);
@@ -298,9 +319,15 @@ class ConfigurationClassParser {
 			}
 		}
 
+		/**
+		 * @Import 注解的支撑 导入一个类
+		 */
 		// Process any @Import annotations
 		processImports(configClass, sourceClass, getImports(sourceClass), true);
 
+		/**
+		 * @ImportResource 导入一个XML文件
+		 */
 		// Process any @ImportResource annotations
 		AnnotationAttributes importResource =
 				AnnotationConfigUtils.attributesFor(sourceClass.getMetadata(), ImportResource.class);

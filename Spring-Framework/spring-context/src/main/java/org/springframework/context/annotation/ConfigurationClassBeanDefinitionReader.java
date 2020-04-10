@@ -114,6 +114,9 @@ class ConfigurationClassBeanDefinitionReader {
 	public void loadBeanDefinitions(Set<ConfigurationClass> configurationModel) {
 		TrackedConditionEvaluator trackedConditionEvaluator = new TrackedConditionEvaluator();
 		for (ConfigurationClass configClass : configurationModel) {
+			/**
+			 * 有注解的类的信息加载
+			 */
 			loadBeanDefinitionsForConfigurationClass(configClass, trackedConditionEvaluator);
 		}
 	}
@@ -138,6 +141,9 @@ class ConfigurationClassBeanDefinitionReader {
 			registerBeanDefinitionForImportedConfigurationClass(configClass);
 		}
 		for (BeanMethod beanMethod : configClass.getBeanMethods()) {
+			/**
+			 * @Bean标签的实现 ， factory-method属性实现
+			 */
 			loadBeanDefinitionsForBeanMethod(beanMethod);
 		}
 
@@ -212,6 +218,10 @@ class ConfigurationClassBeanDefinitionReader {
 		beanDef.setResource(configClass.getResource());
 		beanDef.setSource(this.sourceExtractor.extractSource(metadata, configClass.getResource()));
 
+		/**
+		 * methodName -> FactoryMethodName
+		 * 借助beanDefinition中FactoryMethod属性实现的
+		 */
 		if (metadata.isStatic()) {
 			// static @Bean method
 			beanDef.setBeanClassName(configClass.getMetadata().getClassName());
@@ -322,6 +332,9 @@ class ConfigurationClassBeanDefinitionReader {
 
 		Map<Class<?>, BeanDefinitionReader> readerInstanceCache = new HashMap<>();
 
+		/**
+		 * XmlBeanDefinitionReader 和 XML 容器启动差不太多 ， 直接委托给XmlBeanDefinitionReader解析xml
+		 */
 		importedResources.forEach((resource, readerClass) -> {
 			// Default reader selection necessary?
 			if (BeanDefinitionReader.class == readerClass) {
@@ -335,6 +348,9 @@ class ConfigurationClassBeanDefinitionReader {
 				}
 			}
 
+			/**
+			 * 实例化reader
+			 */
 			BeanDefinitionReader reader = readerInstanceCache.get(readerClass);
 			if (reader == null) {
 				try {
@@ -354,6 +370,9 @@ class ConfigurationClassBeanDefinitionReader {
 				}
 			}
 
+			/**
+			 * 执行解析
+			 */
 			// TODO SPR-6310: qualify relative path locations as done in AbstractContextLoader.modifyLocations
 			reader.loadBeanDefinitions(resource);
 		});

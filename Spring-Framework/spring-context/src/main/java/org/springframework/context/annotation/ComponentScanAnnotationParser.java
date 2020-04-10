@@ -73,6 +73,9 @@ class ComponentScanAnnotationParser {
 	}
 
 
+	/**
+	 * 殊途同归的解析，不存在其他的花招。
+	 */
 	public Set<BeanDefinitionHolder> parse(AnnotationAttributes componentScan, final String declaringClass) {
 		ClassPathBeanDefinitionScanner scanner = new ClassPathBeanDefinitionScanner(this.registry,
 				componentScan.getBoolean("useDefaultFilters"), this.environment, this.resourceLoader);
@@ -129,6 +132,10 @@ class ComponentScanAnnotationParser {
 				return declaringClass.equals(className);
 			}
 		});
+
+		/**
+		 * 同样的还是去doScan，和自定义标签解析时的内容差不多。
+		 */
 		return scanner.doScan(StringUtils.toStringArray(basePackages));
 	}
 

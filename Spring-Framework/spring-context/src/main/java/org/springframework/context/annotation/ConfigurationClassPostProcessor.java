@@ -285,6 +285,9 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 			 * 如果有就会把这个beanDefinition再次包装成一个BeanDefinitionHolder加入到Spring容器中。
 			 */
 			else if (ConfigurationClassUtils.checkConfigurationClassCandidate(beanDef, this.metadataReaderFactory)) {
+				/**
+				 * 有上述注解的类会加入到 configCandidates 集合当中去
+				 */
 				configCandidates.add(new BeanDefinitionHolder(beanDef, beanName));
 			}
 		}
@@ -298,7 +301,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 		}
 
 		/**
-		 * 执行排序过程  获取的是Bean 上Order注解的值进行排序
+		 * 执行排序过程  有注解的类的集合内容基于类上的 @Order 注解的值进行排序
 		 */
 		configCandidates.sort((bd1, bd2) -> {
 			int i1 = ConfigurationClassUtils.getOrder(bd1.getBeanDefinition());
@@ -323,7 +326,9 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 			this.environment = new StandardEnvironment();
 		}
 
-		// Parse each @Configuration class
+		/**
+		 * 这个类很重要，@ComponentScan @Configuration 支持
+		 */
 		ConfigurationClassParser parser = new ConfigurationClassParser(
 				this.metadataReaderFactory, this.problemReporter, this.environment,
 				this.resourceLoader, this.componentScanBeanNameGenerator, registry);
@@ -331,6 +336,10 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 		Set<BeanDefinitionHolder> candidates = new LinkedHashSet<>(configCandidates);
 		Set<ConfigurationClass> alreadyParsed = new HashSet<>(configCandidates.size());
 		do {
+			/**
+			 * parse 解析 解析注解中的内容和执行部分注解该有的逻辑
+			 * @ComponentScan @Configuration 支持
+			 */
 			parser.parse(candidates);
 			parser.validate();
 
@@ -343,6 +352,10 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 						registry, this.sourceExtractor, this.resourceLoader, this.environment,
 						this.importBeanNameGenerator, parser.getImportRegistry());
 			}
+			/**
+			 * 设置beanDefinition的属性值
+			 * 具体执行：import importResource @Bean的逻辑
+			 */
 			this.reader.loadBeanDefinitions(configClasses);
 			alreadyParsed.addAll(configClasses);
 
