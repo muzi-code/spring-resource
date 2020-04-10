@@ -83,7 +83,9 @@ import static org.springframework.context.annotation.AnnotationConfigUtils.CONFI
  * @author Phillip Webb
  * @since 3.0
  *
- * 阅读备注：@Configuration 注解解析的支持
+ * 阅读备注：@Configuration @Import @ImportSource 注解解析的支持
+ *
+ * bean 实例化的顺序就是这个类中进行排序的
  */
 public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPostProcessor,
 		PriorityOrdered, ResourceLoaderAware, BeanClassLoaderAware, EnvironmentAware {
@@ -231,6 +233,9 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 		}
 		this.registriesPostProcessed.add(registryId);
 
+		/**
+		 * 处理
+		 */
 		processConfigBeanDefinitions(registry);
 	}
 
@@ -262,6 +267,9 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 	 */
 	public void processConfigBeanDefinitions(BeanDefinitionRegistry registry) {
 		List<BeanDefinitionHolder> configCandidates = new ArrayList<>();
+		/**
+		 * 获取所有的名称
+		 */
 		String[] candidateNames = registry.getBeanDefinitionNames();
 
 		for (String beanName : candidateNames) {
@@ -272,6 +280,10 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 					logger.debug("Bean definition has already been processed as a configuration class: " + beanDef);
 				}
 			}
+			/**
+			 * 判断 beanDefinition 是否有@bean @configuration @Component @Import 等注解
+			 * 如果有就会把这个beanDefinition再次包装成一个BeanDefinitionHolder加入到Spring容器中。
+			 */
 			else if (ConfigurationClassUtils.checkConfigurationClassCandidate(beanDef, this.metadataReaderFactory)) {
 				configCandidates.add(new BeanDefinitionHolder(beanDef, beanName));
 			}
@@ -279,10 +291,15 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 
 		// Return immediately if no @Configuration classes were found
 		if (configCandidates.isEmpty()) {
+			/**
+			 * 没有那些注解就直接返回了
+			 */
 			return;
 		}
 
-		// Sort by previously determined @Order value, if applicable
+		/**
+		 * 执行排序过程  获取的是Bean 上Order注解的值进行排序
+		 */
 		configCandidates.sort((bd1, bd2) -> {
 			int i1 = ConfigurationClassUtils.getOrder(bd1.getBeanDefinition());
 			int i2 = ConfigurationClassUtils.getOrder(bd2.getBeanDefinition());

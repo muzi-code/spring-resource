@@ -214,6 +214,9 @@ public class ComponentScanBeanDefinitionParser implements BeanDefinitionParser {
 			 * 生成组件BeanDefinition并注册
 			 * AutowireAnnotationBeanPostProcessor，ConfigurationClassPostProcessor，CommonAnnotationBeanPostProcessor
 			 * AutowireAnnotationBeanPostProcessor：是Autowire的支撑，是DI的核心处理。
+			 *
+			 * 组件注册
+			 * registerAnnotationConfigProcessors
 			 */
 			Set<BeanDefinitionHolder> processorDefinitions =
 					AnnotationConfigUtils.registerAnnotationConfigProcessors(readerContext.getRegistry(), source);

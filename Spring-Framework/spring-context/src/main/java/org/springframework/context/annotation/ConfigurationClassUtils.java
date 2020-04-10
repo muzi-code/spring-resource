@@ -86,6 +86,9 @@ abstract class ConfigurationClassUtils {
 			return false;
 		}
 
+		/**
+		 * 寻找metadata
+		 */
 		AnnotationMetadata metadata;
 		if (beanDef instanceof AnnotatedBeanDefinition &&
 				className.equals(((AnnotatedBeanDefinition) beanDef).getMetadata().getClassName())) {
@@ -112,9 +115,24 @@ abstract class ConfigurationClassUtils {
 			}
 		}
 
+		/**
+		 * 判断是否有@Configuration注解
+		 *
+		 * 如果有就会加上 full 标识
+		 */
 		if (isFullConfigurationCandidate(metadata)) {
 			beanDef.setAttribute(CONFIGURATION_CLASS_ATTRIBUTE, CONFIGURATION_CLASS_FULL);
 		}
+		/**
+		 * 判断是否有 这些注解
+		 * 		candidateIndicators.add(Component.class.getName());
+		 * 		candidateIndicators.add(ComponentScan.class.getName());
+		 * 		candidateIndicators.add(Import.class.getName());
+		 * 		candidateIndicators.add(ImportResource.class.getName());
+		 * 判断是否 有@Bean方法
+		 * 		metadata.hasAnnotatedMethods(Bean.class.getName());
+		 * 但凡有一个就会加上	 lite  标识
+		 */
 		else if (isLiteConfigurationCandidate(metadata)) {
 			beanDef.setAttribute(CONFIGURATION_CLASS_ATTRIBUTE, CONFIGURATION_CLASS_LITE);
 		}
@@ -122,6 +140,9 @@ abstract class ConfigurationClassUtils {
 			return false;
 		}
 
+		/**
+		 * 获取Order注解中的值
+		 */
 		// It's a full or lite configuration candidate... Let's determine the order value, if any.
 		Integer order = getOrder(metadata);
 		if (order != null) {

@@ -64,12 +64,15 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	public AnnotationConfigApplicationContext() {
 		/**
 		 * 注解的解析器
-		 * xml 的解析器是XmlBeanDefinitionReader
+		 *
+		 * xml 的解析器是XmlBeanDefinitionReader 把 XML 变成document对象。
+		 *
 		 * 注册注解扫描的beanPostProcessor组件
 		 */
 		this.reader = new AnnotatedBeanDefinitionReader(this);
 		/**
-		 * 扫描器，解析自定义标签也需要用到扫描器
+		 *
+		 * 扫描器，解析自定义标签也需要用到扫描器，context:component-scan也是创建扫描器了。
 		 */
 		this.scanner = new ClassPathBeanDefinitionScanner(this);
 	}
@@ -170,6 +173,9 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 */
 	public void register(Class<?>... annotatedClasses) {
 		Assert.notEmpty(annotatedClasses, "At least one annotated class must be specified");
+		/**
+		 * 把类丢进来的目的是完成beanDefinition的转化
+		 */
 		this.reader.register(annotatedClasses);
 	}
 

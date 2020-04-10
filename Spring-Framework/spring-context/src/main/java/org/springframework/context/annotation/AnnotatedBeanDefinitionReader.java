@@ -139,6 +139,9 @@ public class AnnotatedBeanDefinitionReader {
 	 */
 	public void register(Class<?>... annotatedClasses) {
 		for (Class<?> annotatedClass : annotatedClasses) {
+			/**
+			 * 注册
+			 */
 			registerBean(annotatedClass);
 		}
 	}
@@ -239,6 +242,8 @@ public class AnnotatedBeanDefinitionReader {
 		String beanName = (name != null ? name : this.beanNameGenerator.generateBeanName(abd, this.registry));
 
 		/**
+		 * 类的注解信息，方法信息，类信息都在metadata中。
+		 *
 		 * 把注解相关信息丢到AnnotatedGenericBeanDefinition属性中
 		 */
 		AnnotationConfigUtils.processCommonDefinitionAnnotations(abd);
