@@ -63,7 +63,7 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 */
 	public AnnotationConfigApplicationContext() {
 		/**
-		 * 注解的解析器
+		 * 注解的解析器，一些注解的支撑功能注册。
 		 *
 		 * xml 的解析器是XmlBeanDefinitionReader 把 XML 变成document对象。
 		 *
@@ -94,6 +94,9 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 * e.g. {@link Configuration @Configuration} classes
 	 */
 	public AnnotationConfigApplicationContext(Class<?>... annotatedClasses) {
+		/**
+		 * 注册一些功能性注解解析的BeanPostProcessor
+		 */
 		this();
 		/**
 		 * 注册这个class
@@ -111,8 +114,17 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 * @param basePackages the packages to check for annotated classes
 	 */
 	public AnnotationConfigApplicationContext(String... basePackages) {
+		/**
+		 * 注册一些功能性注解解析的BeanPostProcessor
+		 */
 		this();
+		/**
+		 * 扫描包 basePackages 下内容 解析成beanDefinition
+		 */
 		scan(basePackages);
+		/**
+		 * 刷新上下文
+		 */
 		refresh();
 	}
 

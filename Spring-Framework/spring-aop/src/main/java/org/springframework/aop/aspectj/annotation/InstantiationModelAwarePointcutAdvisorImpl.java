@@ -84,9 +84,16 @@ final class InstantiationModelAwarePointcutAdvisorImpl
 			Method aspectJAdviceMethod, AspectJAdvisorFactory aspectJAdvisorFactory,
 			MetadataAwareAspectInstanceFactory aspectInstanceFactory, int declarationOrder, String aspectName) {
 
+		/**
+		 * 下面需要通过一些信息获取advice对象
+		 */
+		// pointCut
 		this.declaredPointcut = declaredPointcut;
+		// 类
 		this.declaringClass = aspectJAdviceMethod.getDeclaringClass();
+		// 方法
 		this.methodName = aspectJAdviceMethod.getName();
+		// 参数
 		this.parameterTypes = aspectJAdviceMethod.getParameterTypes();
 		this.aspectJAdviceMethod = aspectJAdviceMethod;
 		this.aspectJAdvisorFactory = aspectJAdvisorFactory;
@@ -110,6 +117,10 @@ final class InstantiationModelAwarePointcutAdvisorImpl
 			// A singleton aspect.
 			this.pointcut = this.declaredPointcut;
 			this.lazy = false;
+
+			/**
+			 * 拿到advice 有一些复杂的逻辑，根据类型创建不同的advice
+			 */
 			this.instantiatedAdvice = instantiateAdvice(this.declaredPointcut);
 		}
 	}
@@ -146,6 +157,9 @@ final class InstantiationModelAwarePointcutAdvisorImpl
 	}
 
 	private Advice instantiateAdvice(AspectJExpressionPointcut pointcut) {
+		/**
+		 * 拿到advice 有一些复杂的逻辑，根据类型创建不同的advice
+		 */
 		Advice advice = this.aspectJAdvisorFactory.getAdvice(this.aspectJAdviceMethod, pointcut,
 				this.aspectInstanceFactory, this.declarationOrder, this.aspectName);
 		return (advice != null ? advice : EMPTY_ADVICE);

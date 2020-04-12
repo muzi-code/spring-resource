@@ -68,7 +68,7 @@ public class AnnotatedBeanDefinitionReader {
 	 */
 	public AnnotatedBeanDefinitionReader(BeanDefinitionRegistry registry) {
 		/**
-		 *
+		 * 注册一些注解的支撑功能
 		 * 注册注解扫描的beanPostProcessor组件
 		 */
 		this(registry, getOrCreateEnvironment(registry));
@@ -89,6 +89,7 @@ public class AnnotatedBeanDefinitionReader {
 		this.registry = registry;
 		this.conditionEvaluator = new ConditionEvaluator(registry, environment, null);
 		/**
+		 * 注册一些注解的支撑功能
 		 * 注册注解扫描的beanPostProcessor组件
 		 */
 		AnnotationConfigUtils.registerAnnotationConfigProcessors(this.registry);

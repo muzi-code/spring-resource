@@ -433,7 +433,14 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	@Override
 	public Object applyBeanPostProcessorsAfterInitialization(Object existingBean, String beanName)
 			throws BeansException {
-
+		/**
+		 * AOP的入口是一个BeanPostProcessor的应用，是抽象类AbstractAutoProxyCreator
+		 *
+		 * 抽象类AbstractAutoProxyCreator的子类是何时注入进来的？
+		 *	解析自定义xml 或 注解扫描过程中某个Bean的信息有 @EnableAspectJAutoProxy
+		 * Spring保存的是代理对象还是被代理对象？
+		 *	被代理的对象
+		 */
 		Object result = existingBean;
 		for (BeanPostProcessor processor : getBeanPostProcessors()) {
 			Object current = processor.postProcessAfterInitialization(result, beanName);
@@ -651,6 +658,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			 * init-method
 			 * InitializingBean接口afterPropertiesSet方法
 			 * @PostConstruct注解下的方法
+			 *
+			 * 包含AOP入口
 			 *
 			 * 重要 * * * * *
 			 */
@@ -1947,7 +1956,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		/**
-		 * Aop入口
+		 *  Aop入口，可以用的实例才会被代理。
 		 */
 		if (mbd == null || !mbd.isSynthetic()) {
 			wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);

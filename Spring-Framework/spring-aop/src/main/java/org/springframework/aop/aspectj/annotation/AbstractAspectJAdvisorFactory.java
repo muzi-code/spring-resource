@@ -59,6 +59,10 @@ public abstract class AbstractAspectJAdvisorFactory implements AspectJAdvisorFac
 
 	private static final String AJC_MAGIC = "ajc$";
 
+
+	/**
+	 * 找方法上是否有下列的注解
+	 */
 	private static final Class<?>[] ASPECTJ_ANNOTATION_CLASSES = new Class<?>[] {
 			Pointcut.class, Around.class, Before.class, After.class, AfterReturning.class, AfterThrowing.class};
 
@@ -131,6 +135,9 @@ public abstract class AbstractAspectJAdvisorFactory implements AspectJAdvisorFac
 	@Nullable
 	protected static AspectJAnnotation<?> findAspectJAnnotationOnMethod(Method method) {
 		for (Class<?> clazz : ASPECTJ_ANNOTATION_CLASSES) {
+			/**
+			 * 找注解信息并包装成注解对象
+			 */
 			AspectJAnnotation<?> foundAnnotation = findAnnotation(method, (Class<Annotation>) clazz);
 			if (foundAnnotation != null) {
 				return foundAnnotation;
@@ -141,8 +148,10 @@ public abstract class AbstractAspectJAdvisorFactory implements AspectJAdvisorFac
 
 	@Nullable
 	private static <A extends Annotation> AspectJAnnotation<A> findAnnotation(Method method, Class<A> toLookFor) {
+		// 找的规则是 找注解的父注解，按照递归的方式去找，直到找到目标的注解为止
 		A result = AnnotationUtils.findAnnotation(method, toLookFor);
 		if (result != null) {
+			// 把注解里面的信息解析出来，然后包装成AspectJAnnotation对象
 			return new AspectJAnnotation<>(result);
 		}
 		else {
@@ -168,10 +177,16 @@ public abstract class AbstractAspectJAdvisorFactory implements AspectJAdvisorFac
 	 */
 	protected static class AspectJAnnotation<A extends Annotation> {
 
+		/**
+		 * 主要是解析这两个东西
+		 */
 		private static final String[] EXPRESSION_ATTRIBUTES = new String[] {"pointcut", "value"};
 
 		private static Map<Class<?>, AspectJAnnotationType> annotationTypeMap = new HashMap<>(8);
 
+		/**
+		 * 注解的类型存在Map中
+		 */
 		static {
 			annotationTypeMap.put(Pointcut.class, AspectJAnnotationType.AtPointcut);
 			annotationTypeMap.put(Around.class, AspectJAnnotationType.AtAround);
@@ -191,9 +206,18 @@ public abstract class AbstractAspectJAdvisorFactory implements AspectJAdvisorFac
 
 		public AspectJAnnotation(A annotation) {
 			this.annotation = annotation;
+			/**
+			 * 拿到注解的类型
+			 */
 			this.annotationType = determineAnnotationType(annotation);
 			try {
+				// 解析注解上面的表达式
+				/**
+				 * 注解上面可以解析的内容要么是 value 如 @Around（"pc1()"）
+				 * 要么是 @AfterReturning（pointcut = "execution(public * com.jd.nlp.dev.muzi.spring5.exercise.aop01.service.*.*(..))"）
+				 */
 				this.pointcutExpression = resolveExpression(annotation);
+				// 获取注解上的参数，把注解上的argsNames参数提取出来放到argumentNames里面
 				Object argNames = AnnotationUtils.getValue(annotation, "argNames");
 				this.argumentNames = (argNames instanceof String ? (String) argNames : "");
 			}
@@ -203,6 +227,9 @@ public abstract class AbstractAspectJAdvisorFactory implements AspectJAdvisorFac
 		}
 
 		private AspectJAnnotationType determineAnnotationType(A annotation) {
+			/**
+			 * 拿到当前注解的类型
+			 */
 			AspectJAnnotationType type = annotationTypeMap.get(annotation.annotationType());
 			if (type != null) {
 				return type;

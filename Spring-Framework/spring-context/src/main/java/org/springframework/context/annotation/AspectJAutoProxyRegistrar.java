@@ -41,9 +41,27 @@ class AspectJAutoProxyRegistrar implements ImportBeanDefinitionRegistrar {
 	@Override
 	public void registerBeanDefinitions(
 			AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
+		/**
+		 * AUTO_PROXY_CREATOR_BEAN_NAME 这个就是AOP入口类的 名称。
+		 * 有时可能会有覆盖性操作，名称需要记住。
+		 */
 
+		/**
+		 * 注册AOP入口类
+		 */
 		AopConfigUtils.registerAspectJAnnotationAutoProxyCreatorIfNecessary(registry);
 
+		/**
+		 * 与xml不同的是基于注解方式需要获取注解的属性配置，并设置进入beanDefinition中
+		 *
+		 * true
+		 * 1、目标对象实现了接口 - 使用CGLIB代理机制
+		 * 2、目标对象没有实现接口（只有实现类） - 使用CGLIB代理机制
+		 *
+		 * false
+		 * 1、目标对象实现了接口 - 使用JDK动态代理机制（代理所有实现了的接口）
+		 * 2、目标对象没有接口（只有实现类） - 使用CGLIB代理机制
+		 */
 		AnnotationAttributes enableAspectJAutoProxy =
 				AnnotationConfigUtils.attributesFor(importingClassMetadata, EnableAspectJAutoProxy.class);
 		if (enableAspectJAutoProxy != null) {

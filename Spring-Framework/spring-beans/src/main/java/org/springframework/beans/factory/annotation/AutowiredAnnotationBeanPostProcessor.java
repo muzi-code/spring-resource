@@ -388,6 +388,9 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 						 */
 						candidateConstructors = candidates.toArray(new Constructor<?>[0]);
 					} else if (rawCandidates.length == 1 && rawCandidates[0].getParameterCount() > 0) {
+						/**
+						 * 没有autowire注解的构造函数，且只有一个有参数构造函数，那就用这个有参数构造函数对付对付
+						 */
 						candidateConstructors = new Constructor<?>[]{rawCandidates[0]};
 					} else if (nonSyntheticConstructors == 2 && primaryConstructor != null &&
 							defaultConstructor != null && !primaryConstructor.equals(defaultConstructor)) {
@@ -395,6 +398,9 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 					} else if (nonSyntheticConstructors == 1 && primaryConstructor != null) {
 						candidateConstructors = new Constructor<?>[]{primaryConstructor};
 					} else {
+						/**
+						 * 两个及以上没有Autowire注解的构造函数就返回个空的数组。
+						 */
 						candidateConstructors = new Constructor<?>[0];
 					}
 					this.candidateConstructorsCache.put(beanClass, candidateConstructors);

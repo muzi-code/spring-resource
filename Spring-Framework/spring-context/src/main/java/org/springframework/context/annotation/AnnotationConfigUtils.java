@@ -135,6 +135,7 @@ public abstract class AnnotationConfigUtils {
 	 */
 	public static void registerAnnotationConfigProcessors(BeanDefinitionRegistry registry) {
 		/**
+		 * 注册一些注解的支撑功能
 		 * 注册注解扫描的beanPostProcessor组件
 		 */
 		registerAnnotationConfigProcessors(registry, null);
@@ -171,6 +172,7 @@ public abstract class AnnotationConfigUtils {
 		if (!registry.containsBeanDefinition(CONFIGURATION_ANNOTATION_PROCESSOR_BEAN_NAME)) {
 
 			/**
+			 * ConfigurationClassPostProcessor 至关重要，解析@ComponentScan @Import @Bean @ImportSource注解的能力。
 			 * @Configuration 注解的组件功能注册
 			 */
 			RootBeanDefinition def = new RootBeanDefinition(ConfigurationClassPostProcessor.class);

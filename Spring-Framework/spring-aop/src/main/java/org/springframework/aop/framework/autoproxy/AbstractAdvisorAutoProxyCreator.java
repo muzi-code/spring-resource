@@ -73,6 +73,10 @@ public abstract class AbstractAdvisorAutoProxyCreator extends AbstractAutoProxyC
 	protected Object[] getAdvicesAndAdvisorsForBean(
 			Class<?> beanClass, String beanName, @Nullable TargetSource targetSource) {
 
+		/**
+		 * 找到合格的切面，重点看
+		 * 搜集@Aspectj的所有类
+		 */
 		List<Advisor> advisors = findEligibleAdvisors(beanClass, beanName);
 		if (advisors.isEmpty()) {
 			return DO_NOT_PROXY;
@@ -91,21 +95,33 @@ public abstract class AbstractAdvisorAutoProxyCreator extends AbstractAutoProxyC
 	 * @see #extendAdvisors
 	 */
 	protected List<Advisor> findEligibleAdvisors(Class<?> beanClass, String beanName) {
+		// 找到候选的切面过程，其实就是找有@Aspectj注解的过程，把攻城战所有有注解的类封装到Advisor返回。
+		// 为什么是候选？需要代理的类是beanClass，findCandidateAdvisors是找到所有的切面。
 		List<Advisor> candidateAdvisors = findCandidateAdvisors();
+
+		// 判断后选切面是否作用在当前beanClass上面，就是一个匹配的过程，过滤掉不需要拦截beanClass类的切面。
+		// 简单理解就是判断这个类是否在那个pointcut表达式里面
 		List<Advisor> eligibleAdvisors = findAdvisorsThatCanApply(candidateAdvisors, beanClass, beanName);
 		extendAdvisors(eligibleAdvisors);
 		if (!eligibleAdvisors.isEmpty()) {
+			// 对有@Order @Priority进行排序
 			eligibleAdvisors = sortAdvisors(eligibleAdvisors);
 		}
+		// 类在表达式里面就说明这个类绝对会生成代理
 		return eligibleAdvisors;
 	}
 
 	/**
 	 * Find all candidate Advisors to use in auto-proxying.
 	 * @return the List of candidate Advisors
+	 *
+	 * 执行的是子类的方法
 	 */
 	protected List<Advisor> findCandidateAdvisors() {
 		Assert.state(this.advisorRetrievalHelper != null, "No BeanFactoryAdvisorRetrievalHelper available");
+		/**
+		 * findAdvisorBeans
+		 */
 		return this.advisorRetrievalHelper.findAdvisorBeans();
 	}
 
