@@ -117,7 +117,9 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 								// 创建获取有@Aspectj注解类的工厂实例，负责获取所有@Aspectj注解类的实例
 								MetadataAwareAspectInstanceFactory factory =
 										new BeanFactoryAspectInstanceFactory(this.beanFactory, beanName);
-								// 创建切面advisor实例
+								/**
+								 * 创建切面advisor实例
+								 */
 								List<Advisor> classAdvisors = this.advisorFactory.getAdvisors(factory);
 								if (this.beanFactory.isSingleton(beanName)) {
 									this.advisorsCache.put(beanName, classAdvisors);

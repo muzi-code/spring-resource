@@ -124,7 +124,11 @@ public class ReflectiveAspectJAdvisorFactory extends AbstractAspectJAdvisorFacto
 		MetadataAwareAspectInstanceFactory lazySingletonAspectInstanceFactory =
 				new LazySingletonAspectInstanceFactoryDecorator(aspectInstanceFactory);
 
-		// 循环没有@PointCut注解的方法，pointCut是一个切点并非是一个增强方法。所以不需要收集
+		/**
+		 * 循环没有@PointCut注解的方法，pointCut是一个切点并非是一个增强方法。
+		 *
+		 * @PointCut 里面只有一个表达式，并非是增强的内容
+		 */
 		List<Advisor> advisors = new ArrayList<>();
 		for (Method method : getAdvisorMethods(aspectClass)) {
 			/**
@@ -267,7 +271,8 @@ public class ReflectiveAspectJAdvisorFactory extends AbstractAspectJAdvisorFacto
 
 		AbstractAspectJAdvice springAdvice;
 
-		// 根据不同的注解类型来创建不通的advice
+		// advice创建，增强创建
+		// 根据不同的注解类型来创建不同的advice
 		// 代理类调用方法时所有的advice对象会包装成MethodInterceptor对象。前置增强和拿到返回值后置通知没实现MethodInterceptor接口
 		switch (aspectJAnnotation.getAnnotationType()) {
 			case AtPointcut:

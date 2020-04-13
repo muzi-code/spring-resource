@@ -176,7 +176,7 @@ public class InjectionMetadata {
 
 		/**
 		 * Either this or {@link #getResourceToInject} needs to be overridden.
-		 * 阅读备注：resource的注入方法
+		 * 阅读备注：@resource的注入方法走的是当前方法，@Autowired走子类的方法
 		 */
 		protected void inject(Object target, @Nullable String requestingBeanName, @Nullable PropertyValues pvs)
 				throws Throwable {

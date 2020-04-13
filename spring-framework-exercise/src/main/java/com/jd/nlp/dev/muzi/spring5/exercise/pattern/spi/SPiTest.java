@@ -19,6 +19,15 @@ public class SPiTest {
             spiService.query("90");
         }
 
+        System.out.println();
+
+        // 这么使用其实和BeanPostProcessor很像
+        for (SpiService spiService : load) {
+            if (spiService instanceof SpiService01){
+                spiService.query("90");
+            }
+        }
+
         /**
          * 扩展：在dubbo的配置里有 rpc.cluster.Cluster的配置中是以 key=value 来配置的。
          * 配置某个key会有唯一的实现类

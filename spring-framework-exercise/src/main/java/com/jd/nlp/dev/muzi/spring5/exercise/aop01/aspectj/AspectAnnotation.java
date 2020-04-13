@@ -8,6 +8,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class AspectAnnotation {
     @DeclareParents(value = "com.jd.nlp.dev.muzi.spring5.exercise.aop01.service.BankServiceImpl",
             defaultImpl = com.jd.nlp.dev.muzi.spring5.exercise.aop01.service.DataCheckImpl.class)
     private DataCheck dataCheck;
+
 
 
     /**
@@ -45,14 +47,15 @@ public class AspectAnnotation {
     @Pointcut("execution(public * com.jd.nlp.dev.muzi.spring5.exercise.aop01.service.*.add*(..))")
     public void pc2(){}
 
-    @Pointcut("execution(public * com.jd.nlp.dev.muzi.spring5.exercise.aop01.service.*.*(..))")
-    public void pc3(){}
-
 
     @Before("pc2()")
     public void before() {
         System.out.println("===============只拦截add方法=========");
     }
+
+    @Pointcut("execution(public * com.jd.nlp.dev.muzi.spring5.exercise.aop01.service.*.*(..))")
+    public void pc3(){}
+
 
     @Before("pc3()")
     public void before1(JoinPoint joinPoint) {

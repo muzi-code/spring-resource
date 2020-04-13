@@ -501,11 +501,14 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		try {
 			/**
 			 * TargetSource接口的运用，可以在用该一个类实现该接口，然后在里面定义实例化对象的方式
-			 * 不需要SPring帮助实例化对象
+			 *
+			 * 不需要Spring帮助实例化对象
 			 *
 			 * 这里直接可以返回实例本身
 			 *
-			 * 给接口一个机会去返回代理对象
+			 * 给接口一个机会去返回代理对象  BeanPostProcessor 此处是个操作埋点
+			 *
+			 * AOP另一个基本上不会走到的入口，99%情况是DI之后的那个入口。
 			 */
 			Object bean = resolveBeforeInstantiation(beanName, mbdToUse);
 			if (bean != null) {

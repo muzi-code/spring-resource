@@ -1,10 +1,15 @@
 package com.jd.nlp.dev.muzi.spring5.exercise.aop01;
 
 import com.jd.nlp.dev.muzi.spring5.exercise.aop01.service.BankService;
+import com.jd.nlp.dev.muzi.spring5.exercise.aop01.service.DataCheck;
+import com.jd.nlp.dev.muzi.spring5.exercise.aop01.service.ShopService;
+import com.jd.nlp.dev.muzi.spring5.exercise.aop01.service.UserService;
 import com.jd.nlp.dev.muzi.spring5.exercise.demo12.FactoryB;
 import com.jd.nlp.dev.muzi.spring5.exercise.demo12.FactoryBeanDemo;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.util.ArrayList;
 
 /**
  * 开启Spring一个工程的方式
@@ -52,4 +57,54 @@ public class RunTest {
         System.out.println();
     }
 
+    @Test
+    public void run02() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+                "classpath:spring5/exercise/aop01/spring.xml"
+        );
+
+        UserService userService = (UserService) context.getBean(UserService.class);
+        userService.queryUser("123456");
+        System.out.println();
+    }
+
+    @Test
+    public void run03() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+                "classpath:spring5/exercise/aop01/spring.xml"
+        );
+
+        ShopService shopService = (ShopService) context.getBean(ShopService.class);
+        shopService.shop();
+        shopService.pick();
+        System.out.println();
+    }
+
+    @Test
+    public void run04() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+                "classpath:spring5/exercise/aop01/spring.xml"
+        );
+
+        BankService bankService = (BankService) context.getBean(BankService.class);
+        bankService.queryBank("123",213,new ArrayList());
+        System.out.println();
+    }
+
+    /**
+     * 引介动态添加的功能 @DeclareParents
+     */
+    @Test
+    public void run05() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+                "classpath:spring5/exercise/aop01/spring.xml"
+        );
+
+        BankService bankService = (BankService) context.getBean(BankService.class);
+        bankService.queryBank("123",213,new ArrayList());
+        System.out.println();
+
+        DataCheck dataCheck = (DataCheck) bankService;
+        dataCheck.check();
+    }
 }

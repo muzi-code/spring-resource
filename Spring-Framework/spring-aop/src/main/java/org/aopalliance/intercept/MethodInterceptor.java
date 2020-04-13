@@ -51,6 +51,14 @@ public interface MethodInterceptor extends Interceptor {
 	 * might be intercepted by the interceptor
 	 * @throws Throwable if the interceptors or the target object
 	 * throws an exception
+	 *
+	 * 特殊的
+	 * MethodBeforeAdviceInterceptor
+	 * AfterReturningAdviceInterceptor
+	 * 直接继承的
+	 * AspectJArroundAdvice
+	 * AspectJAfterAdvice
+	 * AspectJAfterThrowing
 	 */
 	Object invoke(MethodInvocation invocation) throws Throwable;
 

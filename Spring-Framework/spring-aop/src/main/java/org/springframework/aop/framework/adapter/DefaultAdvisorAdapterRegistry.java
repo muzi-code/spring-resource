@@ -44,6 +44,7 @@ public class DefaultAdvisorAdapterRegistry implements AdvisorAdapterRegistry, Se
 
 
 	/**
+	 * 处理三种不同类型advice
 	 * Create a new DefaultAdvisorAdapterRegistry, registering well-known adapters.
 	 */
 	public DefaultAdvisorAdapterRegistry() {
@@ -55,6 +56,7 @@ public class DefaultAdvisorAdapterRegistry implements AdvisorAdapterRegistry, Se
 
 	@Override
 	public Advisor wrap(Object adviceObject) throws UnknownAdviceTypeException {
+		// 大部分的adviceObject直接就出去了
 		if (adviceObject instanceof Advisor) {
 			return (Advisor) adviceObject;
 		}
@@ -62,8 +64,12 @@ public class DefaultAdvisorAdapterRegistry implements AdvisorAdapterRegistry, Se
 			throw new UnknownAdviceTypeException(adviceObject);
 		}
 		Advice advice = (Advice) adviceObject;
+
+		// 自定义的 MethodInterceptor 才会进行一个advisor的包装
+		// 程序员进行扩展的情况
 		if (advice instanceof MethodInterceptor) {
 			// So well-known it doesn't even need an adapter.
+			// true PointCut  无论怎么matches都会返回true，如果这个类有切面所有掉到代理的方法都会拦截到
 			return new DefaultPointcutAdvisor(advice);
 		}
 		for (AdvisorAdapter adapter : this.adapters) {
@@ -79,11 +85,18 @@ public class DefaultAdvisorAdapterRegistry implements AdvisorAdapterRegistry, Se
 	public MethodInterceptor[] getInterceptors(Advisor advisor) throws UnknownAdviceTypeException {
 		List<MethodInterceptor> interceptors = new ArrayList<>(3);
 		Advice advice = advisor.getAdvice();
+		// advice 五花八门，MethodInterceptor
+
+		// 如果MethodInterceptor类型的，如：AspectJAroundAdvice
 		if (advice instanceof MethodInterceptor) {
 			interceptors.add((MethodInterceptor) advice);
 		}
+
+		// 包装MethodInterceptor对象
+		// 特殊处理 AspectJMethodBeforeAdvice AspectJAfterReturningAdvice
 		for (AdvisorAdapter adapter : this.adapters) {
 			if (adapter.supportsAdvice(advice)) {
+				// 包装成MethodInterceptor类型的对象
 				interceptors.add(adapter.getInterceptor(advisor));
 			}
 		}

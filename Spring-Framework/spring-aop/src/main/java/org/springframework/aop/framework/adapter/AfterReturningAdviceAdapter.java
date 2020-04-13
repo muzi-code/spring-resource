@@ -41,6 +41,7 @@ class AfterReturningAdviceAdapter implements AdvisorAdapter, Serializable {
 
 	@Override
 	public MethodInterceptor getInterceptor(Advisor advisor) {
+		// AfterReturningAdviceAdapter 实现了 MethodInterceptor 持有 AfterReturning类型的advisor
 		AfterReturningAdvice advice = (AfterReturningAdvice) advisor.getAdvice();
 		return new AfterReturningAdviceInterceptor(advice);
 	}

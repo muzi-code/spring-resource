@@ -108,7 +108,7 @@ public class ReflectiveMethodInvocation implements ProxyMethodInvocation, Clonea
 	protected ReflectiveMethodInvocation(
 			Object proxy, @Nullable Object target, Method method, @Nullable Object[] arguments,
 			@Nullable Class<?> targetClass, List<Object> interceptorsAndDynamicMethodMatchers) {
-
+		// 代理实例 目标方法 类对象 增强方法链条
 		this.proxy = proxy;
 		this.target = target;
 		this.targetClass = targetClass;
@@ -159,10 +159,12 @@ public class ReflectiveMethodInvocation implements ProxyMethodInvocation, Clonea
 	@Nullable
 	public Object proceed() throws Throwable {
 		//	We start with an index of -1 and increment early.
+		// 如果执行链中的advice全部执行完，则直接调用joinPoint方法，就是被代理方法
 		if (this.currentInterceptorIndex == this.interceptorsAndDynamicMethodMatchers.size() - 1) {
 			return invokeJoinpoint();
 		}
 
+		// 集合中拿第一个元素出来
 		Object interceptorOrInterceptionAdvice =
 				this.interceptorsAndDynamicMethodMatchers.get(++this.currentInterceptorIndex);
 		if (interceptorOrInterceptionAdvice instanceof InterceptorAndDynamicMethodMatcher) {
@@ -181,6 +183,8 @@ public class ReflectiveMethodInvocation implements ProxyMethodInvocation, Clonea
 			}
 		}
 		else {
+
+			// 调用 MethodInterceptor 的 invoke 方法
 			// It's an interceptor, so we just invoke it: The pointcut will have
 			// been evaluated statically before this object was constructed.
 			return ((MethodInterceptor) interceptorOrInterceptionAdvice).invoke(this);
