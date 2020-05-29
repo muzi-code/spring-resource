@@ -288,6 +288,9 @@ public class ContextLoader {
 						ApplicationContext parent = loadParentContext(servletContext);
 						cwac.setParent(parent);
 					}
+					/**
+					 * 启动容器
+					 */
 					configureAndRefreshWebApplicationContext(cwac, servletContext);
 				}
 			}
@@ -397,6 +400,9 @@ public class ContextLoader {
 		}
 
 		customizeContext(sc, wac);
+		/**
+		 * 启动容器
+		 */
 		wac.refresh();
 	}
 

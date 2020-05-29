@@ -157,6 +157,8 @@ import org.springframework.web.util.WebUtils;
  * @see org.springframework.web.HttpRequestHandler
  * @see org.springframework.web.servlet.mvc.Controller
  * @see org.springframework.web.context.ContextLoaderListener
+ *
+ * 调用FrameworkServlet的父类的init方法
  */
 @SuppressWarnings("serial")
 public class DispatcherServlet extends FrameworkServlet {

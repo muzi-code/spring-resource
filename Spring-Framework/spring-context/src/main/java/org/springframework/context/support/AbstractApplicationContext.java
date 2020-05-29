@@ -565,14 +565,14 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				postProcessBeanFactory(beanFactory);
 
 				/**
-				 * 动态添加/修改我们配置的基本信息
-				 * 通过实现接口（实现接口的的类需要在obtainFreshBeanFactory环节已经被注册好）
-				 * 完成beandefinition 的新增和修改。
+				 * 动态添加/修改我们配置的基本信息,通过实现接口（实现接口的的类需要在obtainFreshBeanFactory环节已经被注册好）,完成beandefinition 的新增和修改。
 				 *
-				 * BeanDefinitionRegistryPosProcessor
-				 * BeanFactoryPostProcessor
-				 * 完成对这两个接口的调用
+				 * 功能：
+				 *  完成对下述两个接口的调用
+				 * 	BeanDefinitionRegistryPosProcessor
+				 * 	BeanFactoryPostProcessor
 				 *
+				 * 由来：
 				 * 为了解决在Sping启动加载流程缺乏修改/新增beandefinition的能力，所以才会在流程中
 				 * 加上invokeBeanFactoryPostProcessors功能，帮助开发人员更好的集成/使用Spring。
 				 *

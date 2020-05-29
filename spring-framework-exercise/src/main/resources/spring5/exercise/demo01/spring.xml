@@ -17,6 +17,6 @@
     <context:component-scan base-package="com.jd.nlp.dev.muzi.spring5.exercise.demo01" />
 
     <!-- 配置一个学生类的bean 传统标签 -->
-    <bean id="product" name="productService1;productService2,productService3" class="com.jd.nlp.dev.muzi.spring5.exercise.demo01.ProductService"/>
+    <bean id="productService" name="productService2;productService3" class="com.jd.nlp.dev.muzi.spring5.exercise.demo01.ProductService"/>
 
 </beans>

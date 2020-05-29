@@ -46,8 +46,7 @@ public class RunTest {
         MyAnnoClass myAnnoClass = context.getBean(MyAnnoClass.class);
         System.out.println(" 测试自定义注解扫描: " + myAnnoClass.getUsername());
 
-        BeanClass beanClass = context.getBean(BeanClass.class);
-        System.out.println(" 测试动态注册BeanDefinition: " + beanClass.getUsername());
+
     }
 
     @Test

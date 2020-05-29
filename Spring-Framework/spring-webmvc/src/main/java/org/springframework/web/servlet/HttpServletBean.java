@@ -77,6 +77,8 @@ import org.springframework.web.context.support.StandardServletEnvironment;
  * @see #initServletBean
  * @see #doGet
  * @see #doPost
+ *
+ * 仔细看HttpServletBean的init方法
  */
 @SuppressWarnings("serial")
 public abstract class HttpServletBean extends HttpServlet implements EnvironmentCapable, EnvironmentAware {
@@ -165,6 +167,9 @@ public abstract class HttpServletBean extends HttpServlet implements Environment
 			}
 		}
 
+		/**
+		 *  初始化上下文容器
+		 */
 		// Let subclasses do whatever initialization they like.
 		initServletBean();
 	}
@@ -186,6 +191,8 @@ public abstract class HttpServletBean extends HttpServlet implements Environment
 	 * method is invoked.
 	 * <p>This default implementation is empty.
 	 * @throws ServletException if subclass initialization fails
+	 *
+	 * 调用子类的方法
 	 */
 	protected void initServletBean() throws ServletException {
 	}

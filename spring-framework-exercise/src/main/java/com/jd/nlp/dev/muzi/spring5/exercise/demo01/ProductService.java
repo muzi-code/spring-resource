@@ -4,7 +4,7 @@ package com.jd.nlp.dev.muzi.spring5.exercise.demo01;
 import org.springframework.stereotype.Service;
 
 
-@Service("product")
+//@Service("productService")
 public class ProductService {
 
     private String name = "商品业务类";

@@ -14,16 +14,16 @@ public class RunTest {
     @Test
     public void run01(){
         // 基于加载XML配置文件的方式，启动spring容器
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring5/exercise/demo01/spring.xml");
-        ProductService productService = (ProductService) context.getBean("product");
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath*:spring5/**/demo01/spring.xml");
+        ProductService productService = (ProductService) context.getBean("productService");
         productService.show();
     }
 
     @Test
     public void run02(){
         // 基于扫描注解的方式，启动spring容器
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("cn.letwecode.muzi.spring5.exercise.demo01");
-        ProductService productService = (ProductService) context.getBean("product");
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("com.jd.nlp.dev.muzi.spring5.exercise.demo01");
+        ProductService productService = (ProductService) context.getBean("productService");
         productService.show();
     }
 

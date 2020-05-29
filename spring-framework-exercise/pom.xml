@@ -43,6 +43,11 @@
             <version>LATEST</version>
         </dependency>
 
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
 
         <!--
           springboot 1.x.x包含EmbeddedWebApplicationContext 启动嵌入式tomcat

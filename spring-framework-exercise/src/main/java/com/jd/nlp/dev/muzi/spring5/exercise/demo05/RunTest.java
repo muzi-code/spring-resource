@@ -19,7 +19,8 @@ public class RunTest {
     public void run02(){
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring5/exercise/demo05/spring.xml");
         ShowSixClass people = (ShowSixClass) context.getBean("people");
-        people.showsix();
+        people.getPeople().showSix();
+        //people.showsix();
     }
 
 }
