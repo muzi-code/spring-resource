@@ -7,6 +7,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import redis.clients.jedis.Jedis;
 
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
+
 /**
  * 开启Spring一个工程的方式
  */
@@ -45,7 +48,6 @@ public class RunTest {
 
         MyAnnoClass myAnnoClass = context.getBean(MyAnnoClass.class);
         System.out.println(" 测试自定义注解扫描: " + myAnnoClass.getUsername());
-
 
     }
 

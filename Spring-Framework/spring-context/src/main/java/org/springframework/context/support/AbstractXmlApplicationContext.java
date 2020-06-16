@@ -90,8 +90,6 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 
 		/*
 		 * 不重要
-		 * Configure the bean definition reader with this context's
-		 * resource loading environment.
 		 */
 		beanDefinitionReader.setEnvironment(this.getEnvironment());
 
@@ -107,8 +105,6 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 
 		/*
 		 * 不重要
-		 * Allow a subclass to provide custom initialization of the reader,
-		 * then proceed with actually loading the bean definitions.
 		 */
 		initBeanDefinitionReader(beanDefinitionReader);
 

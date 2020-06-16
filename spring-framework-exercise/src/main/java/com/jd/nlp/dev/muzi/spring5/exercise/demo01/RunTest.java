@@ -6,6 +6,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
+import java.util.HashMap;
+
 /**
  * 开启Spring一个工程的方式
  */
@@ -22,7 +24,8 @@ public class RunTest {
     @Test
     public void run02(){
         // 基于扫描注解的方式，启动spring容器
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("com.jd.nlp.dev.muzi.spring5.exercise.demo01");
+        AnnotationConfigApplicationContext context =
+                new AnnotationConfigApplicationContext("com.jd.nlp.dev.muzi.spring5.exercise.demo01");
         ProductService productService = (ProductService) context.getBean("productService");
         productService.show();
     }
@@ -48,6 +51,15 @@ public class RunTest {
         context.setAllowBeanDefinitionOverriding(true);
         context.setAllowCircularReferences(true);
         context.refresh();
+        productService.show();
+    }
+
+    @Test
+    public void run06(){
+        // 基于扫描注解的方式，启动spring容器
+        AnnotationConfigApplicationContext context =
+                new AnnotationConfigApplicationContext(ScanClass.class);
+        ProductService productService = (ProductService) context.getBean("productService");
         productService.show();
     }
 }
