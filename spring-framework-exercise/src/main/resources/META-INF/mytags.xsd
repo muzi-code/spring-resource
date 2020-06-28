@@ -3,11 +3,12 @@
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.jd.com/schema/mytags"
  elementFormDefault="qualified" attributeFormDefault="unqualified">
 
-	<xsd:element name="redis">
+	<xsd:element name="exercise-function">
 		<xsd:complexType>
 			<xsd:attribute name="id" type="xsd:string"></xsd:attribute>
 			<xsd:attribute name="ip" type="xsd:string"></xsd:attribute>
 			<xsd:attribute name="port" type="xsd:string"></xsd:attribute>
+			<xsd:attribute name="password" type="xsd:string"></xsd:attribute>
 		</xsd:complexType>
 	</xsd:element>
 </xsd:schema>

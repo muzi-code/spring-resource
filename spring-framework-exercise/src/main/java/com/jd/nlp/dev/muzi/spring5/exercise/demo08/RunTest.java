@@ -59,8 +59,9 @@ public class RunTest {
 
         Jedis client1 = (Jedis)app.getBean("redis");
         System.out.println(client1);
-
         System.out.println(client1.set("keyname1", "valuejack1"));
+        System.out.println(client1.get("keyname1"));
     }
+
 
 }

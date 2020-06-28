@@ -8,7 +8,7 @@ import org.w3c.dom.Node;
 public class TagsNamespaceHandler extends NamespaceHandlerSupport {
     
     public void init() {
-        this.registerBeanDefinitionParser("redis",
+        this.registerBeanDefinitionParser("exercise-function",
                 new RedisBeanDifinitionParser());
     }
 
