@@ -11,11 +11,15 @@ public class OriginClass {
     * replaced-method标签
     * */
     public void method(String param) {
+        System.out.println();
         System.out.println("I am origin method! param = " + param);
+        System.out.println();
     }
 
     public void method(List param) {
+        System.out.println();
         System.out.println("I am origin method! param = " + param);
+        System.out.println();
     }
 
 }
