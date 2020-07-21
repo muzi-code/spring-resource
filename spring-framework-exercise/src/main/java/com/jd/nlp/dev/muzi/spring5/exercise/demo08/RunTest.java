@@ -48,19 +48,20 @@ public class RunTest {
 
         MyAnnoClass myAnnoClass = context.getBean(MyAnnoClass.class);
         System.out.println(" 测试自定义注解扫描: " + myAnnoClass.getUsername());
-
     }
+
 
     @Test
     public void run03(){
+        // 自定义标签扫描
         ApplicationContext app = new ClassPathXmlApplicationContext(
                 "classpath:spring5/exercise/demo08/spring.xml");
-        System.out.println(app);
+
 
         Jedis client1 = (Jedis)app.getBean("redis");
         System.out.println(client1);
-        System.out.println(client1.set("keyname1", "valuejack1"));
-        System.out.println(client1.get("keyname1"));
+        System.out.println(client1.set("laosiji", "pa pa pa !"));
+        System.out.println(client1.get("laosiji"));
     }
 
 
