@@ -49,6 +49,12 @@
             <version>3.1.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.70</version>
+        </dependency>
+
         <!--
           springboot 1.x.x包含EmbeddedWebApplicationContext 启动嵌入式tomcat
           -->

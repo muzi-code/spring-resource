@@ -8,5 +8,6 @@ public class MyTest {
                 new Advice(new Muzi()));
 
         proxyObject.eat("西瓜");
+        proxyObject.show();
     }
 }
