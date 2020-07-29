@@ -243,7 +243,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		}
 		else if (delegate.nodeNameEquals(ele, NESTED_BEANS_ELEMENT)) {
 			/**
-			 * recurse ，不重要 外层的beans
+			 * 如果是外层的Beans递归回去
 			 */
 			doRegisterBeanDefinitions(ele);
 		}
