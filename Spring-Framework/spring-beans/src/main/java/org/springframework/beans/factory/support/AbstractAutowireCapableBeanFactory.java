@@ -1959,7 +1959,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		/**
-		 *  Aop入口，可以用的实例才会被代理。
+		 *  Aop入口，有切面的实例才会被代理。
 		 */
 		if (mbd == null || !mbd.isSynthetic()) {
 			wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
